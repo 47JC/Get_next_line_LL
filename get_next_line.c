@@ -73,14 +73,23 @@ char *ft_criar_string(t_list **list, char *str)
         j = 0;
         while (aux->content[j] != '\n' && aux->content[j] != '\0')
         {
-            str[i++] = aux->content[j];
+            str[i] = aux->content[j];
+            i++;
             j++;
         }
-        str[i] = '\0';
+        if(aux->content[j] == '\n' || aux->content[j] == '\0')
+            break;  
         aux = aux->next;
     }
-    str[i++] = '\n';
-    str[i] = '\0';
+    if(aux->content[j] == '\n')
+    {
+        str[i] = '\n';
+        i++;
+        str[i] = '\0';
+    }
+    if(aux->content[j] == '\0')
+        str[i] = '\0';
+        
     return (str);
 }
 
@@ -173,10 +182,7 @@ char *get_next_line(int fd)
     int t;
 
     t = 0;
-    newline = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-    if (!newline)
-        return (NULL);
-    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &newline, 0) < 0)
+    if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
     //criar lista até encontrar \n
     list = ft_criar_lista(fd, &list);
@@ -184,13 +190,6 @@ char *get_next_line(int fd)
     {   
         free(list);
         return (NULL);
-    }
-    //criar string com o conteudo da lista
-    aux = list;
-    while (aux)
-    {
-        t++;
-        aux = aux->next;
     }
     newline = ft_criar_string(&list, newline);
 
