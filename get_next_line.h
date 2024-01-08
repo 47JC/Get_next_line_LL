@@ -13,6 +13,7 @@ typedef struct s_list
 }					t_list;
 
 char		*get_next_line(int fd);
+int count_newline(t_list *list);
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 1
 #endif

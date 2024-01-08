@@ -3,12 +3,10 @@
 t_list *ft_limpar_lista(t_list **list)
 {
     t_list *aux;
-    int i;
     int n;
     int nbr_nodes;
 
     nbr_nodes = 0;
-    i = 0;
     aux = *list;
     n = 0;
     while (aux)
@@ -33,14 +31,36 @@ t_list *ft_limpar_lista(t_list **list)
     return (*list);
 }
 
+int count_newline(t_list *list)
+{
+    int i;
+    t_list *temp;
+
+    temp = list;
+    i = 0;
+    while(temp)
+    {
+        while(temp->content[i] != '\n' && temp->content[i] != '\0')
+            i++;
+        temp = temp->next;
+    }
+    if (temp->content[i] == '\n')
+        i++; 
+    return(i);
+}
+
 char *ft_criar_string(t_list **list, char *str)
 {
     int i;
     int j;
     t_list *aux;
-
+    int len;
     i = 0;
     aux = *list;
+    len = count_newline(*list);
+    str = malloc(sizeof(char) * (len + 1));
+    if (!str)
+        return (NULL);
     while (aux)
     {
         j = 0;
@@ -165,9 +185,6 @@ char *get_next_line(int fd)
         t++;
         aux = aux->next;
     }
-    newline = malloc(sizeof(char) * (t * BUFFER_SIZE + 1));
-    if (!newline)
-        return (NULL);
     newline = ft_criar_string(&list, newline);
 
     //limpar lista e deixar o resto que foi lido
@@ -176,15 +193,15 @@ char *get_next_line(int fd)
     return (newline);
 }
 
-// int main(void)
-// {
-//     int fd;
+int main(void)
+{
+    int fd;
 
-//     fd = open("test.txt", O_RDONLY | O_CREAT);
-//     printf("|%s|", get_next_line(fd));
-//     printf("|%s|", get_next_line(fd));
-//     printf("|%s|", get_next_line(fd));
-//     printf("|%s|", get_next_line(fd));
-//     printf("|%s|", get_next_line(fd));
-//     printf("|%s|", get_next_line(fd));
-// }
+    fd = open("test.txt", O_RDONLY | O_CREAT);
+    printf("|%s|", get_next_line(fd));
+    printf("|%s|", get_next_line(fd));
+    printf("|%s|", get_next_line(fd));
+    printf("|%s|", get_next_line(fd));
+    printf("|%s|", get_next_line(fd));
+    printf("|%s|", get_next_line(fd));
+}
