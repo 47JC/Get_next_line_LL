@@ -47,11 +47,11 @@ int count_newline(t_list *list)
             i++;
             j++;
         }
-        if(temp->content[j] == '\n' || temp->content[j] == '\0')
+        if(temp->content[j] == '\n')
             break;
         temp = temp->next;
     }
-    if (temp->content[i] == '\n')
+    if (temp && temp->content[j] == '\n')
         i++; 
     return(i);
 }
@@ -77,19 +77,18 @@ char *ft_criar_string(t_list **list, char *str)
             i++;
             j++;
         }
-        if(aux->content[j] == '\n' || aux->content[j] == '\0')
+        if(aux->content[j] == '\n')
             break;  
         aux = aux->next;
     }
-    if(aux->content[j] == '\n')
+    if(aux && aux->content[j] == '\n')
     {
         str[i] = '\n';
         i++;
         str[i] = '\0';
     }
-    if(aux->content[j] == '\0')
+    if(aux && aux->content[j] == '\0')
         str[i] = '\0';
-        
     return (str);
 }
 
