@@ -34,14 +34,21 @@ t_list *ft_limpar_lista(t_list **list)
 int count_newline(t_list *list)
 {
     int i;
+    int j;
     t_list *temp;
 
     temp = list;
     i = 0;
     while(temp)
     {
-        while(temp->content[i] != '\n' && temp->content[i] != '\0')
+        j = 0;
+        while(temp->content[j] != '\n' && temp->content[j] != '\0')
+        {
             i++;
+            j++;
+        }
+        if(temp->content[j] == '\n' || temp->content[j] == '\0')
+            break;
         temp = temp->next;
     }
     if (temp->content[i] == '\n')
